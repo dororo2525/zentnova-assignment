@@ -37,19 +37,19 @@
                     <div class="navbar-brand-box">
                         <a href="index.html" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/skote/images/logo.svg') }}" alt="" height="22">
+                                <img src="{{ asset('assets/skote/images/logo-dark-mud.png') }}" alt="" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/skote/images/logo-dark.png') }}" alt="" height="17">
+                                <img src="{{ asset('assets/skote/images/logo-dark-mud.png') }}" alt="" height="17">
                             </span>
                         </a>
 
                         <a href="index.html" class="logo logo-light">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/skote/images/logo-light.svg') }}" alt="" height="22">
+                                <img src="{{ asset('assets/skote/images/logo-light-mud.png') }}" alt="" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/skote/images/logo-light.png') }}" alt="" height="19">
+                                <img src="{{ asset('assets/skote/images/logo-light-mud.png') }}" alt="" height="19">
                             </span>
                         </a>
                     </div>
@@ -124,7 +124,7 @@
                             </a>
                         </li> 
                         <li class="menu-title" key="t-title-url">Manage Url</li>
-                        <li {!! Route::is('manage-url.*') ? 'class="mm-active"' : null !!}>
+                        <li {!! Route::is('manage-url.*' , 'report.*') ? 'class="mm-active"' : null !!}>
                             <a href="{{ route('manage-url.index') }}">
                                 <i class="bx bx-link"></i>
                                 <span key="t-url">URL</span>

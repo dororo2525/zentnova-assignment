@@ -97,7 +97,7 @@
                                     <td>{{ $url->user_id }}</td>
                                     @endif
                                     <td>{{ $key + 1 }}</td>
-                                    <td><a href="{{ $url->url }}">{{ $url->origin_url }}</a></td>
+                                    <td><a href="{{ $url->origin_url }}" target="_blank">{{ $url->origin_url }}</a></td>
                                     <td><a href="{{ request()->root().'/'.$url->code }}">{{ request()->root().'/'.$url->code }}</a></td>
                                     <td>{{ $url->code }}</td>
                                     <td>{{ $url->clicks }}</td>
@@ -119,7 +119,7 @@
                                                         <a href="{{ route('manage-url.edit' , $url->code) }}" class="dropdown-item btn-edit"  title="Edit"> Edit</a>
                                                             <a href="javascript:void(0);" class="dropdown-item btn-delete" data-code="{{ $url->code }}" title="Delete">Delete</i></a>
                                                         <a href="javascript:void(0);" class="dropdown-item btn-save-qr" data-code="{{ $url->code }}">Save QR Code</a>
-                                                        <a class="dropdown-item" href="{{ route('dashboard.show' , $url->code) }}">Report</a>
+                                                        <a class="dropdown-item" href="{{ route('report.show' , $url->code) }}">Report</a>
                                                     </div>
                                                 </div>
                                             </li>

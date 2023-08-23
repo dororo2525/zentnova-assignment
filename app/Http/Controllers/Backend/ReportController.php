@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-
-class DashboardController extends Controller
+class ReportController extends Controller
 {
-       /**
+        /**
      * Display a listing of the resource.
      */
     public function index()
