@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\ShortUrlController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Auth::routes();
+Route::group(['middleware' => 'auth' , 'prefix' => 'admin'] , function(){
+    Route::group(['moddleware' => 'superadmin'] , function(){
+        Route::resource('manage-package', 'App\Http\Controllers\Backend\PackageController');
+    });
+    Route::resource('dashboard', App\Http\Controllers\Backend\DashboardController::class);
+    Route::get('get-chart-data', [App\Http\Controllers\Backend\DashboardController::class, 'getClickbyCurrentDate'])->name('dashboard.get-chart-data');
+    Route::post('post-chart-data', [App\Http\Controllers\Backend\DashboardController::class, 'getClickbyDate'])->name('dashboard.post-chart-data');
+    Route::resource('manage-url', App\Http\Controllers\Backend\ShortUrlController::class);
+    Route::post('manage-url/switch-status', [App\Http\Controllers\Backend\ShortUrlController::class, 'switchStatus'])->name('manage-url.switch-status');
 });
