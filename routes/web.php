@@ -24,7 +24,8 @@ Route::group(['middleware' => 'auth' , 'prefix' => 'admin'] , function(){
         Route::resource('manage-package', 'App\Http\Controllers\Backend\PackageController');
     });
     Route::resource('dashboard', App\Http\Controllers\Backend\DashboardController::class);
-    Route::get('get-chart-data', [App\Http\Controllers\Backend\DashboardController::class, 'getClickbyCurrentDate'])->name('dashboard.get-chart-data');
+    Route::post('report/get-chart-data', [App\Http\Controllers\Backend\DashboardController::class, 'getClickbyCurrentYear'])->name('get-report-by-year');
+    Route::post('report/chart/get-report-by-date-range', [App\Http\Controllers\Backend\DashboardController::class,'getReportByDateRange'])->name('get-report-by-date-range');
     Route::post('post-chart-data', [App\Http\Controllers\Backend\DashboardController::class, 'getClickbyDate'])->name('dashboard.post-chart-data');
     Route::resource('manage-url', App\Http\Controllers\Backend\ShortUrlController::class);
     Route::post('manage-url/switch-status', [App\Http\Controllers\Backend\ShortUrlController::class, 'switchStatus'])->name('manage-url.switch-status');

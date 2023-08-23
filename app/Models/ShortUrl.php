@@ -21,10 +21,14 @@ class ShortUrl extends Model
     ];
 
     public function clicks(){
-        return $this->hasMany(UrlClick::class);
+        return $this->hasMany(UrlClick::class , 'url_id' , 'id');
     }
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function urlclicks(){
+        return $this->hasMany(UrlClick::class , 'url_id' , 'id');
     }
 }

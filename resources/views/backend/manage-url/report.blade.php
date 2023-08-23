@@ -121,10 +121,276 @@
 @endsection
 
 @section('js')
- 
+   <!-- Chart JS -->
+   <script src="{{ asset('assets/skote/libs/chart.js/Chart.bundle.min.js') }}"></script>
  <script>
-        $(document).ready(function() {
-            
+                 $(document).ready(function() {
+        var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var clickChart;
+        var platformChart;
+        var deviceChart;
+        var browserChart;
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('get-report-by-year') }}",
+            data: {
+                code: "{{ $url->code }}",
+                _token : "{{ csrf_token() }}"
+            },
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                var currentMonth = []
+                var currentData = []
+                var labelPlatform = []
+                var labelBrowser = []
+                var labelDevice = []
+                var deviceData = []
+                var platformData = []
+                var browserData = []
+
+                $.each(response.months, function(index, value) {
+                    currentMonth.push(month[index]);
+                    currentData.push(parseInt(value));
+                });
+
+                $.each(response.urlclicks, function(index, value) {
+
+                    if (index == 'platform') {
+                        $.each(value, function(k, v) {
+                            labelPlatform.push(v.platform);
+                            platformData.push(v.count_platform);
+                        });
+                    } else if (index == 'browser') {
+                        $.each(value, function(k, v) {
+                            labelBrowser.push(v.browser);
+                            browserData.push(v.count_browser);
+                        });
+                    } else if (index == 'device') {
+                        $.each(value, function(k, v) {
+                            labelDevice.push(v.device);
+                            deviceData.push(v.count_device);
+                        });
+                    }
+                });
+
+                var areaChartData = {
+                    labels: currentMonth,
+                    datasets: [{
+                        label: 'Clicks',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: currentData
+                    }, ]
+                }
+
+                var platform = {
+                    labels: labelPlatform,
+                    datasets: [{
+                        data: platformData,
+                        backgroundColor: generateColorArray(platformData.length),
+                    }]
+                }
+
+                var device = {
+                    labels: labelDevice,
+                    datasets: [{
+                        data: deviceData,
+                        backgroundColor: generateColorArray(deviceData.length),
+                    }]
+                }
+
+                var browser = {
+                    labels: labelBrowser,
+                    datasets: [{
+                        data: browserData,
+                        backgroundColor: generateColorArray(browserData.length),
+                    }]
+                }
+
+                //-------------
+                //- BAR CHART -
+                //-------------
+                var barChartCanvas = $('#barChart').get(0).getContext('2d')
+                var barChartData = $.extend(true, {}, areaChartData)
+                var temp0 = areaChartData.datasets[0]
+                barChartData.datasets[0] = temp0
+
+                var barChartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    datasetFill: false
+                }
+
+              clickChart =  new Chart(barChartCanvas, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: barChartOptions
+                })
+
+                 //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var platformChartCanvas = $('#platformChart').get(0).getContext('2d')
+        var pieData = platform;
+        var pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        platformChart = new Chart(platformChartCanvas, {
+            type: 'pie',
+            data: pieData,
+            options: pieOptions
+        })
+
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var deviceChartCanvas = $('#deviceChart').get(0).getContext('2d')
+        var pieData = device;
+        var pieOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+         deviceChart =  new Chart(deviceChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var browserChartCanvas = $('#browserChart').get(0).getContext('2d')
+            var pieData = browser;
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+           browserChart = new Chart(browserChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+
+            $('.overlay').fadeOut();
+        }
         });
+
+        $('#btn-search').click(function() {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            if (startDate == '' || endDate == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select start date and end date',
+                })
+            } else {
+                $('.overlay').fadeIn();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('get-report-by-date-range') }}",
+                    data: {
+                        code: "{{ $url->code }}",
+                        startDate: startDate,
+                        endDate: endDate,
+                        _token : "{{ csrf_token() }}"
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                     console.log(response);
+                var currentMonth = []
+                var currentData = []
+                var labelPlatform = []
+                var labelBrowser = []
+                var labelDevice = []
+                var deviceData = []
+                var platformData = []
+                var browserData = []
+
+                $.each(response.months, function(index, value) {
+                    currentMonth.push(month[index]);
+                    currentData.push(parseInt(value));
+                });
+
+                $.each(response.urlclicks, function(index, value) {
+
+                    if (index == 'platform') {
+                        $.each(value, function(k, v) {
+                            labelPlatform.push(v.platform);
+                            platformData.push(v.count_platform);
+                        });
+                    } else if (index == 'browser') {
+                        $.each(value, function(k, v) {
+                            labelBrowser.push(v.browser);
+                            browserData.push(v.count_browser);
+                        });
+                    } else if (index == 'device') {
+                        $.each(value, function(k, v) {
+                            labelDevice.push(v.device);
+                            deviceData.push(v.count_device);
+                        });
+                    }
+                });
+
+                
+
+                //-------------
+                //- BAR CHART -
+                //-------------
+                clickChart.data.labels = currentMonth;
+                clickChart.data.datasets[0].data = currentData;
+                clickChart.update();
+
+                 //-------------
+
+                platformChart.data.labels = labelPlatform;
+                platformChart.data.datasets[0].data = platformData;
+                platformChart.update();
+
+                deviceChart.data.labels = labelDevice;
+                deviceChart.data.datasets[0].data = deviceData;
+                deviceChart.update();
+
+                browserChart.data.labels = labelBrowser;
+                browserChart.data.datasets[0].data = browserData;
+                browserChart.update();
+
+            $('.click-title').text('Click from ' + startDate + ' to ' + endDate);
+            $('.overlay').fadeOut();
+                    }
+                });
+            }
+        });
+
+        function generateColorArray(length) {
+            var colorArray = [];
+            var hueStep = 360 / length;
+
+            for (var i = 0; i < length; i++) {
+                var hue = i * hueStep;
+                var color = 'hsl(' + hue + ', 70%, 50%)';
+                colorArray.push(color);
+            }
+
+            return colorArray;
+        }
+    })
     </script>
 @endsection
