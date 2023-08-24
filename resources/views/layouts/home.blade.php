@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		
-        <title>Resido - Residence & Real Estate HTML Template</title>	
+        <title>MUDLY SHORTEN URL</title>
+		<link rel="icon" type="image/png" href="{{ asset('assets/skote/images/logo-mud-skote.png') }}">
+    	
 		
         <!-- Custom CSS -->
         <link href="{{ asset('assets/resido/css/styles.css') }}" rel="stylesheet">
