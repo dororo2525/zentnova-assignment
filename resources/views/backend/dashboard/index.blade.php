@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Dashboard</h4>
+                <h4 class="mb-sm-0 font-size-18">DASHBOARD</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item active"><a href="javascript: void(0);">Dashboards</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript: void(0);">DASHBOARD</a></li>
                     </ol>
                 </div>
 
@@ -183,17 +183,6 @@
                             pointHighlightStroke: 'rgba(60,141,188,1)',
                             data: value.months
                         })
-                        // {
-                        //     label: 'Clicks',
-                        //     backgroundColor: 'rgba(60,141,188,0.9)',
-                        //     borderColor: 'rgba(60,141,188,0.8)',
-                        //     pointRadius: false,
-                        //     pointColor: '#3b8bba',
-                        //     pointStrokeColor: 'rgba(60,141,188,1)',
-                        //     pointHighlightFill: '#fff',
-                        //     pointHighlightStroke: 'rgba(60,141,188,1)',
-                        //     data: currentData
-                        // }
                     });
 
                     //-------------
