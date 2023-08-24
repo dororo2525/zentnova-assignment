@@ -305,10 +305,10 @@
                 
                 <div class="call-to-act">
                     <div class="call-to-act-head">
-                        <h3>Want to Become a Real Estate Agent?</h3>
-                        <span>We'll help you to grow your career and growth.</span>
+                        <h3>Are you member ?</h3>
+                        <span>Sign up to remeber here.</span>
                     </div>
-                    <a href="#" class="btn btn-call-to-act">SignUp Today</a>
+                    <a href="{{ route('register' , ['package' => 1]) }}" class="btn btn-call-to-act">SignUp Today</a>
                 </div>
                 
             </div>
