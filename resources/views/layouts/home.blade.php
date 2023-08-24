@@ -40,13 +40,7 @@
 							</a>
 							<div class="nav-toggle"></div>
 						</div>
-						<div class="nav-menus-wrapper" style="transition-property: none;">
-							<ul class="nav-menu">
-								<li class=""><a href="#">Home</a></li>
-								<li class=""><a href="#">Contact</a></li>
-                                <li class=""><a href="#">Faq</a></li>
-							</ul>
-							
+						<div class="nav-menus-wrapper" style="transition-property: none;">							
 							<ul class="nav-menu nav-menu-social align-to-right">
 								
 								<li>
@@ -54,7 +48,7 @@
 								</li>
                                 @if(Auth::check())
 								<li>
-									<a href="{{ route('manage-url.index') }}" class="text-light-theme"><i class="ti-user"></i></a>
+									<a href="{{ route('manage-url.index') }}" class="text-light-theme">Dashboard</a>
 								</li>
                                 @else
                                 <li>

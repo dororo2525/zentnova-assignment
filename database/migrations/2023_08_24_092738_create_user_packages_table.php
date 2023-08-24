@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('short_urls', function (Blueprint $table) {
+        Schema::create('user_packages', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->nullable();
-            $table->string('origin_url');
-            $table->string('code')->unique();
-            $table->boolean('status')->default(true);
-            $table->integer('clicks')->default(0);
-            $table->timestamp('expired_at')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('package_id');
+            $table->string('status')->default('pending');
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('short_urls');
+        Schema::dropIfExists('user_packages');
     }
 };

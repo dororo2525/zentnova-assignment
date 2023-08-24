@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class ShortUrl extends Model
 {
@@ -22,6 +23,22 @@ class ShortUrl extends Model
 
     public function clicks(){
         return $this->hasMany(UrlClick::class , 'url_id' , 'id');
+    }
+
+    public function scopeCountClicks($query){
+        return $query->withCount('clicks');
+    }
+
+    public function scopeClickCurrentDay($query){
+        return $query->withCount(['clicks' => function($q){
+            $q->whereDate('created_at', Carbon::today());
+        }]);
+    }
+
+    public function scopeClickCurrentMonth($query){
+        return $query->withCount(['clicks' => function($q){
+            $q->whereMonth('created_at', Carbon::now()->month);
+        }]);
     }
 
     public function user(){

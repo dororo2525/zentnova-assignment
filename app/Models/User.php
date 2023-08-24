@@ -20,6 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'package_id',
         'password',
     ];
 
@@ -42,4 +44,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function packages(){
+        return $this->hasMany(Package::class , 'id' , 'package_id');
+    }
+
+    public function userPackage(){
+        return $this->hasOne(Package::class , 'id' , 'package_id');
+    }
+
+    public function userPackages(){
+        return $this->hasMany(UserPackage::class , 'user_id' , 'id');
+    }
+
+    public function shortUrl(){
+        return $this->hasMany(ShortUrl::class , 'user_id' , 'id');
+    }
 }

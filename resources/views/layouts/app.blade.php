@@ -118,7 +118,7 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title" key="t-title-dashboard">Dashboard</li>
                         <li>
-                            <a href="{{ route('dashboard.index') }}">
+                            <a href="{{ route('index') }}">
                                 <i class='bx bxs-bar-chart-alt-2' ></i>
                                 <span key="t-dashboard">Dashboard</span>
                             </a>
@@ -287,11 +287,11 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            © Skote.
+                            © MUDLY 2023
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Themesbrand
+                                NUTTAPONG BINKUDSUN
                             </div>
                         </div>
                     </div>

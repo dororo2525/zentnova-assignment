@@ -18,8 +18,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('package')->nullable();
-            $table->string('package_status')->nullable();
+            $table->integer('package_id');
             $table->boolean('superadmin')->default(1);
             $table->rememberToken();
             $table->timestamps();

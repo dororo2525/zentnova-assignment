@@ -39,6 +39,11 @@ class ShortUrlController extends Controller
             'url' => 'required|url',
         ]);
 
+        $currentPackage = Auth::user()->userPackage->where('status' , 'pending')->first();
+        $url_count = Auth::user()->shortUrl->count();
+        if($currentPackage->package->url <= $url_count){
+            return redirect()->back()->withErrors(['msg' => Carbon::now() . ' You have reached your url limit! Please upgrade your package.']);
+        }
         $code = $this->ShortUrl();
         try{
             DB::beginTransaction();
@@ -49,11 +54,11 @@ class ShortUrlController extends Controller
                 'created_at' => Carbon::now(),
             ]);
             DB::commit();
-            return redirect()->route('manage-url.index')->with('success', 'Url created successfully!');
+            return redirect()->route('manage-url.index')->with('success', Carbon::now() . ' URL created successfully!');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
-            return redirect()->back()->withErrors(['msg' => 'Something went wrong!']);
+            return redirect()->back()->withErrors(['msg' => Carbon::now() . ' Something went wrong!']);
         }
     }
 
@@ -89,11 +94,11 @@ class ShortUrlController extends Controller
             $result->status = $request->has('status') ? 1 : 0;
             $result->save();
             DB::commit();
-            return redirect()->route('manage-url.index')->with('success', 'Url updated successfully! ' . Carbon::now() );
+            return redirect()->route('manage-url.index')->with('success', Carbon::now() . ' URL updated successfully!' );
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
-            return redirect()->back()->withErrors(['msg' => 'Something went wrong! ' . Carbon::now()]);
+            return redirect()->back()->withErrors(['msg' => Carbon::now() . ' Something went wrong!']);
         }
     }
 
@@ -109,11 +114,11 @@ class ShortUrlController extends Controller
             $click = UrlClick::where('url_id', $result->id);
             $click->delete();
             DB::commit();
-            return response()->json(['status' => true, 'msg' => 'Url deleted successfully!']);
+            return response()->json(['status' => true, 'msg' => Carbon::now() . ' URL deleted successfully!']);
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
-            return response()->json(['status' => false, 'msg' => 'Something went wrong!']);
+            return response()->json(['status' => false, 'msg' => Carbon::now() . ' Something went wrong!']);
         }
     }
 
@@ -122,9 +127,9 @@ class ShortUrlController extends Controller
         if($result){
             $result->status = $request->status;
             $result->save();
-            return response()->json(['status' => true, 'msg' => 'Status updated successfully!']);
+            return response()->json(['status' => true, 'msg' => Carbon::now() . ' Status updated successfully!']);
         }
-        return response()->json(['status' => false, 'msg' => 'Something went wrong!']);
+        return response()->json(['status' => false, 'msg' => Carbon::now() . ' Something went wrong!']);
     }
 
     public function ShortUrl(){

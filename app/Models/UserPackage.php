@@ -5,27 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Package extends Model
+class UserPackage extends Model
 {
     use HasFactory;
 
-    protected $table = 'packages';
+    protected $table = 'user_packages';
     protected $fillable = [
-        'name',
-        'price',
-        'description',
-        'duration',
-        'url',
+        'user_id',
+        'package_id',
+        'start_date',
+        'end_date',
         'status',
         'created_at',
         'updated_at',
     ];
 
-    public function users(){
-        return $this->hasMany(User::class , 'package_id' , 'id');
-    }
-
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function package(){
+        return $this->belongsTo(Package::class);
+    }
+
+    
 }

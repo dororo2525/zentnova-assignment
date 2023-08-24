@@ -14,7 +14,7 @@
                 <div class="text-center">
                     
                     <img src="{{ asset('assets/resido/img/404.png') }}" class="img-fluid" alt="">
-                    <p>Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper</p>
+                    <p class="mt-2 h3">{{ $message }}</p>
                     <a class="btn btn-theme" href="{{ route('home') }}">Back To Home</a>
                     
                 </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\UserPackage;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +54,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone'=>['required','string','max:255'],
+            'password' => ['required', 'string', 'min:6'],
+            'package' => ['nullable' , 'integer'],
         ]);
     }
 
@@ -64,10 +68,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
+            'package_id' => $data['package'] ?? 1,
             'password' => Hash::make($data['password']),
         ]);
+        
+        UserPackage::create([
+            'user_id' => $user->id,
+            'package_id' => $data['package'] ?? 1,
+            'status' => 'pending',
+            'start_date' => Carbon::now(),
+            'end_date' => Carbon::now()->addDays(30),
+            'created_at' => now(),
+        ]);
+
+        return $user;
     }
 }

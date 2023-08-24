@@ -17,23 +17,45 @@
                 <div class="full-search-2 eclip-search italian-search hero-search-radius shadow-hard mt-5">
                     <div class="hero-search-content">
                         <div class="row">
-                            
-                            <div class="col-lg-9 col-md-9 col-sm-10 px-xl-2 px-lg-2 px-md-2 elio">
-                                <div class="form-group borders">
-                                    <div class="input-with-icon">
-                                        <input type="text" class="form-control" placeholder="Enter link here...">
-                                        {{-- <img src="assets/img/pin.svg" width="20"></i> --}}
+                            <form action="{{ route('trial-url') }}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-lg-9 col-md-9 col-sm-10 px-xl-2 px-lg-2 px-md-2 elio">
+                                        <div class="form-group borders">
+                                            <div class="input-with-icon">
+                                                <input type="text" class="form-control" name="url" placeholder="Enter link here...">
+                                                {{-- <img src="assets/img/pin.svg" width="20"></i> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-3 col-md-3 col-sm-2">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-sm search-btn">CREATE</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="col-lg-3 col-md-3 col-sm-2">
-                                <div class="form-group">
-                                    <a href="#" class="btn btn-sm search-btn">CREATE</a>
-                                </div>
-                            </div>
-                                    
+                            </form>       
                         </div>
+                        @if(session('success'))
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-center">
+                                <div class="alert alert-success alert-dismissible fade show">SHORTEN URL : <b>{{ session('success') }}</b> is expired in 12 hours</div>
+                            </div>
+                        </div>
+                        @elseif($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach                                   
+                            <script>
+                                // Automatically close the alert after 3 seconds
+                                setTimeout(function() {
+                                    $(".alert").alert('close');
+                                }, 5000);
+                            </script>
+                @endif
                     </div>
                 </div>
                 
@@ -75,7 +97,7 @@
                         </ul>
                     </div>
                     <div class="pricing-bottom">
-                        <a href="{{ route('register' , ['package' => 'free']) }}" class="btn-pricing">Choose Plan</a>
+                        <a href="{{ route('register' , ['package' => 1]) }}" class="btn-pricing">Choose Plan</a>
                     </div>
                     
                 </div>
@@ -98,7 +120,7 @@
                         </ul>
                     </div>
                     <div class="pricing-bottom">
-                        <a href="{{ route('register' , ['package' => 'basic']) }}" class="btn-pricing">Choose Plan</a>
+                        <a href="{{ route('register' , ['package' => 2]) }}" class="btn-pricing">Choose Plan</a>
                     </div>
                     
                 </div>
@@ -121,7 +143,7 @@
                         </ul>
                     </div>
                     <div class="pricing-bottom">
-                        <a href="{{ route('register' , ['package' => 'premium']) }}" class="btn-pricing">Choose Plan</a>
+                        <a href="{{ route('register' , ['package' => 3]) }}" class="btn-pricing">Choose Plan</a>
                     </div>
                     
                 </div>

@@ -20,12 +20,13 @@
       <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Report</h4>
+                <h4 class="mb-sm-0 font-size-18">REPORT {{ request()->root() . '/' . $url->code }}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
-                        <li class="breadcrumb-item active">Report</li>
+                        <li class="breadcrumb-item"><a href="{{ route('index') }}">DASHBOARD</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('manage-url.index') }}">MANAGE URLS</a></li>
+                        <li class="breadcrumb-item active">REPORT</li>
                     </ol>
                 </div>
 
@@ -38,7 +39,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-3">
-                            <div class="col-lg-5 mt-2 mb-2">
+                            <div class="col-lg-5">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Start Date</span>
@@ -46,7 +47,7 @@
                                     <input type="date" class="form-control" id="startDate" required>
                                 </div>
                             </div>
-                            <div class="col-lg-5 mt-2 mb-2">
+                            <div class="col-lg-5">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">End Date</span>
@@ -54,7 +55,7 @@
                                     <input type="date" class="form-control" id="endDate" required>
                                 </div>
                             </div>
-                            <div class="col-lg-2 mt-2 mb-2">
+                            <div class="col-lg-2">
                                 <div class="d-grid gap-2">
                                     <button class="btn btn-primary btn-block" id="btn-search" type="button"><i class="fas fa-search"></i></button>
                                 </div>
@@ -123,6 +124,8 @@
 @section('js')
    <!-- Chart JS -->
    <script src="{{ asset('assets/skote/libs/chart.js/Chart.bundle.min.js') }}"></script>
+   <script src="{{ asset('assets/skote/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
  <script>
                  $(document).ready(function() {
         var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -140,7 +143,6 @@
             },
             dataType: "json",
             success: function(response) {
-                console.log(response);
                 var currentMonth = []
                 var currentData = []
                 var labelPlatform = []
@@ -189,7 +191,6 @@
                         data: currentData
                     }, ]
                 }
-
                 var platform = {
                     labels: labelPlatform,
                     datasets: [{
@@ -301,7 +302,19 @@
                     title: 'Oops...',
                     text: 'Please select start date and end date',
                 })
-            } else {
+            } else if(new Date(startDate) > new Date(endDate)){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: '<span class="text-danger">Start date must be less than end date</span>',
+                })
+            } else if(new Date(endDate) < new Date(startDate)){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: '<span class="text-danger">End date must be greater than start date</span>',
+                })
+            }  else {
                 $('.overlay').fadeIn();
                 $.ajax({
                     type: "POST",
@@ -314,7 +327,6 @@
                     },
                     dataType: "json",
                     success: function(response) {
-                     console.log(response);
                 var currentMonth = []
                 var currentData = []
                 var labelPlatform = []
